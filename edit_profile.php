@@ -21,13 +21,22 @@
 	}
 
 	if (isset($_POST["submit"])) {
-		$fullname = $_POST["fullname"];
 		$password = $_POST["password"];
 		$email = $_POST["email"];
 		$phone = $_POST["phone"];
-		$sql_update = "UPDATE member SET fullname = '$fullname', password = '$password', email = '$email', phone = '$phone' WHERE id = '$id'";
+		if (isset($_POST['username'])) {
+			$username_edit = $_POST['username'];
+			if (isset($_POST['fullname'])) {
+				$fullname = $_POST['fullname'];
+				$sql_update = "UPDATE member SET username = '$username_edit', fullname = '$fullname', password = '$password', email = '$email', phone = '$phone' WHERE id = '$id'";
+			} else {
+				$sql_update = "UPDATE member SET username = '$username_edit', password = '$password', email = '$email', phone = '$phone' WHERE id = '$id'";
+			}
+		} else {
+			$sql_update = "UPDATE member SET password = '$password', email = '$email', phone = '$phone' WHERE id = '$id'";
+		}
 		$connect->query($sql_update);
-		echo '<script language="javascript">alert("Profile edited!"); window.location="member.php"</script>';
+		echo '<script language="javascript">alert("Profile edited!"); window.location="index.php"</script>';
 	}
 
 	if (isset($_GET['role'])) {
