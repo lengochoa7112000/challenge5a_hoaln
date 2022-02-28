@@ -16,19 +16,18 @@
 
 <?php
 
+	if (isset($_GET['id'])) {
+		$id = $_GET['id'];
+	}
+
 	if (isset($_POST["submit"])) {
 		$fullname = $_POST["fullname"];
 		$password = $_POST["password"];
 		$email = $_POST["email"];
 		$phone = $_POST["phone"];
-		$id = $_POST['id'];
 		$sql_update = "UPDATE member SET fullname = '$fullname', password = '$password', email = '$email', phone = '$phone' WHERE id = '$id'";
 		$connect->query($sql_update);
 		echo '<script language="javascript">alert("Profile edited!"); window.location="member.php"</script>';
-	}
-
-	if (isset($_GET['id'])) {
-		$id = $_GET['id'];
 	}
 
 	if (isset($_GET['role'])) {
@@ -49,7 +48,7 @@
 
 ?>
 
-	<form action="edit_profile.php" method="post">
+	<form action="edit_profile.php?id=<?php echo $id; ?>&role=<?php echo $role; ?>" method="post">
 		<table>
 			<tr>
 				<td>
