@@ -37,13 +37,15 @@
 	$username = $_SESSION['username'];
 	$sql_check_role = "SELECT role, username FROM member WHERE username = '$username'";
 	$result = $connect->query($sql_check_role);
-	$row = mysqli_fetch_array($result);
-	if ($row['role'] === "student") {
-		if ($username != $row['username']) {
+	$row_ = mysqli_fetch_array($result);
+	if ($row_['role'] != "teacher") {
+		if ($row_['role'] === "student") {
+			if ($username != $row_['username']) {
+				echo '<script language="javascript">alert("You don\'t have permision!"); history.back()</script>';
+			}
+		} else {
 			echo '<script language="javascript">alert("You don\'t have permision!"); history.back()</script>';
 		}
-	} elseif ($row['role'] != "teacher") {
-		echo '<script language="javascript">alert("You don\'t have permision!"); history.back()</script>';
 	}
 
 ?>
@@ -63,7 +65,13 @@
 			?>
 			<tr>
 				<td>Username:</td>
-				<td><input type="text" name="username" value="<?php echo $row['username']; ?>" disabled=""></td>
+				<?php
+					if ($row_['role'] === "teacher") {
+						echo "<td><input type=\"text\" name=\"username\" value=\"".$row['username']."\"></td>";
+					} else {
+						echo "<td><input type=\"text\" name=\"username\" value=\"".$row['username']."\" disabled=\"\"></td>";
+					}
+				?>
 				
 			</tr>
 			<tr>
@@ -71,7 +79,13 @@
 				<td><input type="text" name="password" value="<?php echo $row['password']; ?>"></td>
 			</tr>
 				<td>Full name:</td>
-				<td><input type="text" name="fullname" value="<?php echo $row['fullname']; ?>"></td>
+				<?php
+					if ($row_['role'] === "teacher") {
+						echo "<td><input type=\"text\" name=\"fullname\" value=\"".$row['fullname']."\"></td>";
+					} else {
+						echo "<td><input type=\"text\" name=\"fullname\" value=\"".$row['fullname']."\" disabled=\"\"></td>";
+					}
+				?>
 			<tr>
 				<td>Email:</td>
 				<td><input type="text" name="email" value="<?php echo $row['email']; ?>"></td>
